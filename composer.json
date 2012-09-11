@@ -3,7 +3,7 @@
     "type": "symfony-bundle",
     "description": "Symfony JnsXhprofBundle",
     "keywords": ["xhprof"],
-    "homepage": "https://github.com/jonaswouters/XhprofBundle",
+    "homepage": "https://github.com/CristianSitov/XhprofBundle",
     "authors": [
         {
             "name": "Jonas Wouters",
