@@ -44,7 +44,7 @@ class XhprofCollector extends DataCollector
             'xhprof' => $this->runId,
             'xhprof_url' => $this->container->getParameter('jns_xhprof.location_web'),
         );
-        
+
         $response->headers->set('X-Xhprof-Url', $this->getXhprofUrl());
     }
 
@@ -57,13 +57,13 @@ class XhprofCollector extends DataCollector
 
         if (false !== strpos($_SERVER['REQUEST_URI'], "_wdt") || false !== strpos($_SERVER['REQUEST_URI'], "_profiler")) {
             $this->profiling = false;
-            
+
             return;
         }
 
         if (mt_rand(1, $this->container->getParameter('jns_xhprof.sample_size')) != 1) {
             $this->profiling = false;
-            
+
             return;
         }
 
@@ -85,7 +85,7 @@ class XhprofCollector extends DataCollector
 
         $this->profiling = false;
 
-        //require_once $this->container->getParameter('jns_xhprof.location_config');
+        require_once $this->container->getParameter('jns_xhprof.location_config');
         require_once $this->container->getParameter('jns_xhprof.location_lib');
         require_once $this->container->getParameter('jns_xhprof.location_runs');
 
@@ -100,13 +100,13 @@ class XhprofCollector extends DataCollector
         if ($this->container->getParameter('jns_xhprof.enable_xhgui')) {
             $this->saveProfilingDataToDB($xhprof_data);
         } else {
-            $this->runId = $xhprof_runs->save_run($xhprof_data, "Symfony");    
-        }   
+            $this->runId = $xhprof_runs->save_run($xhprof_data, "Symfony");
+        }
     }
 
     /**
      * This function saves the profiling data as well as some additional data to a profiling database.
-     * 
+     *
      * @param  array $xhprof_data
      * @throws \Exception if doctrine was not injected correctly
      */
@@ -117,7 +117,7 @@ class XhprofCollector extends DataCollector
 
         $pmu = isset($xhprof_data['main()']['pmu']) ? $xhprof_data['main()']['pmu'] : '';
         $wt  = isset($xhprof_data['main()']['wt'])  ? $xhprof_data['main()']['wt']  : '';
-        $cpu = isset($xhprof_data['main()']['cpu']) ? $xhprof_data['main()']['cpu'] : '';        
+        $cpu = isset($xhprof_data['main()']['cpu']) ? $xhprof_data['main()']['cpu'] : '';
 
         if (empty($this->doctrine)) {
             throw new \Exception("Trying to save to database, but Doctrine was not set correctly");
@@ -126,13 +126,13 @@ class XhprofCollector extends DataCollector
         $em = $this->doctrine->getEntityManager($this->container->getParameter('jns_xhprof.entity_manager'));
 
         $connection = $em->getConnection();
-        $sql = 'INSERT INTO xhprof (`id`, `url`, `c_url`, `timestamp`, `server name`, `perfdata`, `type`, `cookie`, `post`, `get`, `pmu`, `wt`, `cpu`, `server_id`, `aggregateCalls_include`) 
+        $sql = 'INSERT INTO xhprof (`id`, `url`, `c_url`, `timestamp`, `server name`, `perfdata`, `type`, `cookie`, `post`, `get`, `pmu`, `wt`, `cpu`, `server_id`, `aggregateCalls_include`)
                      VALUES (:run_id, :url, :canonical_url, null, :server_name, :perfdata, 0, :cookie, :post, :get, :pmu, :wt, :cpu, :server_id, \'\');';
 
         $this->runId = uniqid();
 
         $preparedStatement = $connection->prepare($sql);
-        
+
         $preparedStatement->bindValue(':run_id', $this->runId);
         $preparedStatement->bindValue(':url', $url);
         $preparedStatement->bindValue(':canonical_url', $this->getCanonicalUrl($url));
@@ -149,8 +149,8 @@ class XhprofCollector extends DataCollector
     }
 
     /**
-     * Return the canonical URL for the passed in one. 
-     * 
+     * Return the canonical URL for the passed in one.
+     *
      * @param  String $url
      * @return String
      */
