@@ -1,14 +1,12 @@
 {
-    "name": "jns/xhprof-bundle",
+    "name": "cristiansitov/xhprof-bundle",
     "type": "symfony-bundle",
-    "description": "Symfony JnsXhprofBundle",
+    "description": "Symfony JnsXhprofBundle from Jonas Wouters; adaptation by Cristian Sitov",
     "keywords": ["xhprof"],
     "homepage": "https://github.com/CristianSitov/XhprofBundle",
     "authors": [
-        {
-            "name": "Jonas Wouters",
-            "email": "hello@jonaswouters.be"
-        }
+        { "name": "Jonas Wouters", "email": "hello@jonaswouters.be" },
+        { "name": "Cristian Sitov", "email": "cristian@sitov.ro" }
     ],
     "require": {
         "php": ">=5.3.2"
